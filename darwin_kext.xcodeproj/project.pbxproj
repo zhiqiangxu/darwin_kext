@@ -7,16 +7,42 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1D6F35BE212A74370082DA48 /* mach_kext.c in Sources */ = {isa = PBXBuildFile; fileRef = 1D6F35BD212A74370082DA48 /* mach_kext.c */; };
+		1D308077212E67A8000E94E9 /* darwin_kext.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D308072212E67A8000E94E9 /* darwin_kext.h */; };
+		1D30807A212E67A8000E94E9 /* darwin_kext.c in Sources */ = {isa = PBXBuildFile; fileRef = 1D308075212E67A8000E94E9 /* darwin_kext.c */; };
+		1D308083212E6FB8000E94E9 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 1D308082212E6FB8000E94E9 /* main.c */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		1D30807E212E6FB8000E94E9 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		1D6F35BA212A74370082DA48 /* mach_kext.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mach_kext.kext; sourceTree = BUILT_PRODUCTS_DIR; };
-		1D6F35BD212A74370082DA48 /* mach_kext.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = mach_kext.c; sourceTree = "<group>"; };
-		1D6F35BF212A74370082DA48 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1D308072212E67A8000E94E9 /* darwin_kext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = darwin_kext.h; path = darwin_kext/darwin_kext.h; sourceTree = SOURCE_ROOT; };
+		1D308073212E67A8000E94E9 /* darwin_kext_locks.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = darwin_kext_locks.c; path = darwin_kext/darwin_kext_locks.c; sourceTree = SOURCE_ROOT; };
+		1D308074212E67A8000E94E9 /* darwin_kext_filter.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = darwin_kext_filter.c; path = darwin_kext/darwin_kext_filter.c; sourceTree = SOURCE_ROOT; };
+		1D308075212E67A8000E94E9 /* darwin_kext.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = darwin_kext.c; path = darwin_kext/darwin_kext.c; sourceTree = SOURCE_ROOT; };
+		1D308076212E67A8000E94E9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = darwin_kext/Info.plist; sourceTree = SOURCE_ROOT; };
+		1D308080212E6FB8000E94E9 /* control_client */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = control_client; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D308082212E6FB8000E94E9 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		1D6F35BA212A74370082DA48 /* darwin_kext.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = darwin_kext.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1D30807D212E6FB8000E94E9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1D6F35B6212A74370082DA48 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -27,10 +53,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1D308081212E6FB8000E94E9 /* control_client */ = {
+			isa = PBXGroup;
+			children = (
+				1D308082212E6FB8000E94E9 /* main.c */,
+			);
+			path = control_client;
+			sourceTree = "<group>";
+		};
 		1D6F35B0212A74370082DA48 = {
 			isa = PBXGroup;
 			children = (
-				1D6F35BC212A74370082DA48 /* mach_kext */,
+				1D6F35BC212A74370082DA48 /* darwin_kext */,
+				1D308081212E6FB8000E94E9 /* control_client */,
 				1D6F35BB212A74370082DA48 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -38,18 +73,22 @@
 		1D6F35BB212A74370082DA48 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6F35BA212A74370082DA48 /* mach_kext.kext */,
+				1D6F35BA212A74370082DA48 /* darwin_kext.kext */,
+				1D308080212E6FB8000E94E9 /* control_client */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1D6F35BC212A74370082DA48 /* mach_kext */ = {
+		1D6F35BC212A74370082DA48 /* darwin_kext */ = {
 			isa = PBXGroup;
 			children = (
-				1D6F35BD212A74370082DA48 /* mach_kext.c */,
-				1D6F35BF212A74370082DA48 /* Info.plist */,
+				1D308072212E67A8000E94E9 /* darwin_kext.h */,
+				1D308073212E67A8000E94E9 /* darwin_kext_locks.c */,
+				1D308074212E67A8000E94E9 /* darwin_kext_filter.c */,
+				1D308075212E67A8000E94E9 /* darwin_kext.c */,
+				1D308076212E67A8000E94E9 /* Info.plist */,
 			);
-			path = mach_kext;
+			path = darwin_kext;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -59,15 +98,33 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D308077212E67A8000E94E9 /* darwin_kext.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		1D6F35B9212A74370082DA48 /* mach_kext */ = {
+		1D30807F212E6FB8000E94E9 /* control_client */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D6F35C2212A74370082DA48 /* Build configuration list for PBXNativeTarget "mach_kext" */;
+			buildConfigurationList = 1D308084212E6FB8000E94E9 /* Build configuration list for PBXNativeTarget "control_client" */;
+			buildPhases = (
+				1D30807C212E6FB8000E94E9 /* Sources */,
+				1D30807D212E6FB8000E94E9 /* Frameworks */,
+				1D30807E212E6FB8000E94E9 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = control_client;
+			productName = control_client;
+			productReference = 1D308080212E6FB8000E94E9 /* control_client */;
+			productType = "com.apple.product-type.tool";
+		};
+		1D6F35B9212A74370082DA48 /* darwin_kext */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D6F35C2212A74370082DA48 /* Build configuration list for PBXNativeTarget "darwin_kext" */;
 			buildPhases = (
 				1D6F35B5212A74370082DA48 /* Sources */,
 				1D6F35B6212A74370082DA48 /* Frameworks */,
@@ -78,9 +135,9 @@
 			);
 			dependencies = (
 			);
-			name = mach_kext;
-			productName = mach_kext;
-			productReference = 1D6F35BA212A74370082DA48 /* mach_kext.kext */;
+			name = darwin_kext;
+			productName = darwin_kext;
+			productReference = 1D6F35BA212A74370082DA48 /* darwin_kext.kext */;
 			productType = "com.apple.product-type.kernel-extension";
 		};
 /* End PBXNativeTarget section */
@@ -92,13 +149,17 @@
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "徐志强";
 				TargetAttributes = {
+					1D30807F212E6FB8000E94E9 = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+					};
 					1D6F35B9212A74370082DA48 = {
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
 					};
 				};
 			};
-			buildConfigurationList = 1D6F35B4212A74370082DA48 /* Build configuration list for PBXProject "mach_kext" */;
+			buildConfigurationList = 1D6F35B4212A74370082DA48 /* Build configuration list for PBXProject "darwin_kext" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -110,7 +171,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1D6F35B9212A74370082DA48 /* mach_kext */,
+				1D6F35B9212A74370082DA48 /* darwin_kext */,
+				1D30807F212E6FB8000E94E9 /* control_client */,
 			);
 		};
 /* End PBXProject section */
@@ -126,17 +188,39 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1D30807C212E6FB8000E94E9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D308083212E6FB8000E94E9 /* main.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1D6F35B5212A74370082DA48 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D6F35BE212A74370082DA48 /* mach_kext.c in Sources */,
+				1D30807A212E67A8000E94E9 /* darwin_kext.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		1D308085212E6FB8000E94E9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		1D308086212E6FB8000E94E9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		1D6F35C0212A74370082DA48 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -227,11 +311,12 @@
 		1D6F35C3212A74370082DA48 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = mach_kext/Info.plist;
-				MODULE_NAME = com.qtt.zhiqiangxu.mach_kext;
-				MODULE_START = mach_kext_start;
-				MODULE_STOP = mach_kext_stop;
+				INFOPLIST_FILE = darwin_kext/Info.plist;
+				MODULE_NAME = com.qtt.zhiqiangxu.darwin_kext;
+				MODULE_START = darwin_kext_start;
+				MODULE_STOP = darwin_kext_stop;
 				MODULE_VERSION = 1.0.0d1;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.qtt.zhiqiangxu.mach-kext";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = kext;
@@ -241,11 +326,12 @@
 		1D6F35C4212A74370082DA48 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = mach_kext/Info.plist;
-				MODULE_NAME = com.qtt.zhiqiangxu.mach_kext;
-				MODULE_START = mach_kext_start;
-				MODULE_STOP = mach_kext_stop;
+				INFOPLIST_FILE = darwin_kext/Info.plist;
+				MODULE_NAME = com.qtt.zhiqiangxu.darwin_kext;
+				MODULE_START = darwin_kext_start;
+				MODULE_STOP = darwin_kext_stop;
 				MODULE_VERSION = 1.0.0d1;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.qtt.zhiqiangxu.mach-kext";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = kext;
@@ -255,7 +341,16 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1D6F35B4212A74370082DA48 /* Build configuration list for PBXProject "mach_kext" */ = {
+		1D308084212E6FB8000E94E9 /* Build configuration list for PBXNativeTarget "control_client" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D308085212E6FB8000E94E9 /* Debug */,
+				1D308086212E6FB8000E94E9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1D6F35B4212A74370082DA48 /* Build configuration list for PBXProject "darwin_kext" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6F35C0212A74370082DA48 /* Debug */,
@@ -264,13 +359,14 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1D6F35C2212A74370082DA48 /* Build configuration list for PBXNativeTarget "mach_kext" */ = {
+		1D6F35C2212A74370082DA48 /* Build configuration list for PBXNativeTarget "darwin_kext" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6F35C3212A74370082DA48 /* Debug */,
 				1D6F35C4212A74370082DA48 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
