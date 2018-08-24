@@ -55,6 +55,12 @@ int main(int argc, char* argv[]) {
         perror("setsockopt on");
         return -1;
     }
+    
+    ret = setsockopt(sock, SYSPROTO_CONTROL, TPROXY_ON, &user_param, sizeof(user_param));
+    if (ret == -1) {
+        perror("setsockopt on");
+        return -1;
+    }
 
     ret = setsockopt(sock, SYSPROTO_CONTROL, TPROXY_OFF, NULL, 0);
     if (ret == -1) {

@@ -43,6 +43,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1D313C1F212EE00A00AA6D27 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1D6F35B6212A74370082DA48 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -94,6 +101,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		1D313C20212EE00A00AA6D27 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1D6F35B7212A74370082DA48 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -153,6 +167,10 @@
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
 					};
+					1D313C21212EE00A00AA6D27 = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+					};
 					1D6F35B9212A74370082DA48 = {
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
@@ -173,6 +191,7 @@
 			targets = (
 				1D6F35B9212A74370082DA48 /* darwin_kext */,
 				1D30807F212E6FB8000E94E9 /* control_client */,
+				1D313C21212EE00A00AA6D27 /* control_library */,
 			);
 		};
 /* End PBXProject section */
@@ -193,6 +212,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D308083212E6FB8000E94E9 /* main.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1D313C1E212EE00A00AA6D27 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -217,6 +243,26 @@
 		1D308086212E6FB8000E94E9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		1D313C28212EE00A00AA6D27 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		1D313C29212EE00A00AA6D27 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -349,6 +395,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		1D313C2A212EE00A00AA6D27 /* Build configuration list for PBXNativeTarget "control_library" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D313C28212EE00A00AA6D27 /* Debug */,
+				1D313C29212EE00A00AA6D27 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		1D6F35B4212A74370082DA48 /* Build configuration list for PBXProject "darwin_kext" */ = {
 			isa = XCConfigurationList;

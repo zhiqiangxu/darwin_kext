@@ -7,17 +7,32 @@
 		<key>control_client.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>0</integer>
+		</dict>
+		<key>control_library.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
 		</dict>
 		<key>darwin_kext.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>mach_kext.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>1D30807F212E6FB8000E94E9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1D313C21212EE00A00AA6D27</key>
 		<dict>
 			<key>primary</key>
 			<true/>

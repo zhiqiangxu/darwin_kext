@@ -22,7 +22,8 @@ static errno_t install_gotproxy_tcp_filter(int pid, uint16_t port);
 static errno_t uninstall_gotproxy_tcp_filter();
 
 
-
+static bool kext_stopping_started = false;
+static bool kext_filter_unregistered = false;
 static struct TProxyParam proxy_param;
 
 #include "darwin_kext_locks.c"
@@ -137,6 +138,11 @@ static errno_t uninstall_controller() {
 
 static errno_t install_gotproxy_tcp_filter(int pid, uint16_t port) {
     lck_rw_lock_exclusive(g_param_lock);
+    if (kext_stopping_started) {
+        LOG("gotproxy kext is being stopped");
+        lck_rw_unlock_exclusive(g_param_lock);
+        return EINVAL;
+    }
     if (proxy_param.pid != 0 || proxy_param.port != 0) {
         LOG("gotproxy filter is already installed");
         lck_rw_unlock_exclusive(g_param_lock);
@@ -199,6 +205,10 @@ kern_return_t darwin_kext_start(kmod_info_t * ki, void *d)
 
 kern_return_t darwin_kext_stop(kmod_info_t *ki, void *d)
 {
+    lck_rw_lock_exclusive(g_param_lock);
+    kext_stopping_started = true;
+    lck_rw_unlock_exclusive(g_param_lock);
+    
     errno_t retval = 0;
     
     // uninstall filter
@@ -207,9 +217,17 @@ kern_return_t darwin_kext_stop(kmod_info_t *ki, void *d)
         LOG("uninstall gotproxy filters error errorno = %d", retval);
         goto failure;
     }
-
+    
+    // wait for filter unregistered
+    lck_rw_lock_exclusive(g_param_lock);
+    if (!kext_filter_unregistered) {
+        lck_rw_unlock_exclusive(g_param_lock);
+        goto failure;
+    }
+    
     // uninstall controller
     retval = uninstall_controller();
+    lck_rw_unlock_exclusive(g_param_lock);
     if (retval) {
         LOG("uninstall gotproxy controller error errorno = %d", retval);
         goto failure;

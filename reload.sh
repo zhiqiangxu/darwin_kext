@@ -5,3 +5,4 @@ if kextstat | grep -q "com.qtt.xuzhiqiang.gotproxy"; then
     sudo kextunload -b com.qtt.xuzhiqiang.gotproxy
 fi
 sudo kextload  /tmp/darwin_kext.kext
+sudo cp -R /tmp/darwin_kext.kext /Users/xuzhiqiang/.gvm/pkgsets/go1.10/global/src/github.com/zhiqiangxu/gotproxy/darwin/

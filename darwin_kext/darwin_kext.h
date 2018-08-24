@@ -35,7 +35,7 @@ struct TProxyParamUser {
 
 #pragma mark Customized printf function
 #define LOG(format, ...) do {                      \
-printf("[gotproxy2]: " format "\n", ## __VA_ARGS__); \
+printf("[gotproxy]: " format "\n", ## __VA_ARGS__); \
 } while (0)
 
 #endif /* darwin_kext_h */

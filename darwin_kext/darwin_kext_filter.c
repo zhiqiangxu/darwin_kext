@@ -81,8 +81,16 @@ static errno_t gotproxy_tcp_connect_out_cb(
         bcopy(to, &(gotproxy_cookie->remote_addr), to->sa_len);
         struct sockaddr_in *remote_addr = (struct sockaddr_in*)to;
         
-        remote_addr->sin_port = htons(copy_param.port);
-        remote_addr->sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+        // forbid directly access redirector port
+        uint32_t redirectorAddr = htonl(INADDR_LOOPBACK);
+        in_port_t redirectorPort = htons(copy_param.port);
+        if (remote_addr->sin_port == redirectorPort && remote_addr->sin_addr.s_addr == redirectorAddr) {
+            LOG("directly access redirector port is forbid!");
+            return -1;
+        }
+        
+        remote_addr->sin_port = redirectorPort;
+        remote_addr->sin_addr.s_addr = redirectorAddr;
     } else if (to->sa_family == AF_INET6) {
         gotproxy_cookie->redirected = true;
         bcopy(to, &(gotproxy_cookie->remote_addr), to->sa_len);
@@ -161,11 +169,18 @@ static	void gotproxy_tcp_notify_cb(void *cookie, socket_t so, sflt_event_t event
     }
 }
 
+// notify unregistered
+void gotproxy_tcp_unregistered_cb (sflt_handle handle) {
+    lck_rw_lock_exclusive(g_param_lock);
+    kext_filter_unregistered = true;
+    lck_rw_unlock_exclusive(g_param_lock);
+}
+
 const static struct sflt_filter gotproxy_tcp_filter = {
     GOTPROXY_TCP_FILTER_HANDLE,     /* sflt_handle */
     SFLT_GLOBAL,                    /* sf_flags */
     MYBUNDLEID,                     /* sf_name - cannot be nil else param err results */
-    NULL,//gotproxy_tcp_unregistered_cb,   /* sf_unregistered_func */
+    gotproxy_tcp_unregistered_cb,   /* sf_unregistered_func */
     gotproxy_tcp_attach_cb,         /* sf_attach_func - cannot be nil else param err results */
     gotproxy_tcp_detach_cb,         /* sf_detach_func - cannot be nil else param err results */
     gotproxy_tcp_notify_cb,         /* sf_notify_func */
