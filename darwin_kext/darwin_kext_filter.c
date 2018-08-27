@@ -68,7 +68,7 @@ static errno_t gotproxy_tcp_connect_out_cb(
     if (proxy_param.pid == 0)
     {
         lck_rw_unlock_shared(g_param_lock);
-        return -1;
+        return 0;
     }
     
     struct TProxyParam copy_param = proxy_param;
@@ -115,22 +115,33 @@ static	void gotproxy_tcp_notify_cb(void *cookie, socket_t so, sflt_event_t event
     switch (event) {
         case sock_evt_connected:
         {
+            if (!gotproxy_cookie->redirected) return;
+            
             unsigned char addrString[256] = {0};
             in_port_t		port;
+            char* ptr = NULL;
             struct sockaddr *remote_addr = (struct sockaddr *)&gotproxy_cookie->remote_addr;
             if (remote_addr->sa_family == AF_INET) {
-                inet_ntop(AF_INET, &gotproxy_cookie->remote_addr.addr4.sin_addr, (char*) addrString, sizeof(addrString));
-                port = ntohs(gotproxy_cookie->remote_addr.addr4.sin_port);
+                ptr = inet_ntop(AF_INET, &gotproxy_cookie->remote_addr.addr4.sin_addr, (char*) addrString, sizeof(addrString));
+                // keep port in network order
+                port = gotproxy_cookie->remote_addr.addr4.sin_port;
             } else if (remote_addr->sa_family == AF_INET6) {
                 addrString[0] = '[';
-                inet_ntop(AF_INET, &gotproxy_cookie->remote_addr.addr6.sin6_addr, 1+(char*) addrString, sizeof(addrString)-2);
+                ptr = inet_ntop(AF_INET, &gotproxy_cookie->remote_addr.addr6.sin6_addr, 1+(char*) addrString, sizeof(addrString)-2);
                 size_t len = strlen((const char*)addrString);
                 addrString[len] = ']';
-                port = ntohs(gotproxy_cookie->remote_addr.addr6.sin6_port);
+                // keep port in network order
+                port = gotproxy_cookie->remote_addr.addr6.sin6_port;
+            }
+            
+            if (ptr == NULL) {
+                LOG("%d: inet_ntop returns NULL %d %d", so, port, ntohs(port));
+            } else {
+                LOG("%d: inet_ntop returns %s %d %d", so, ptr, port, ntohs(port));
             }
             
             char addrlen = strlen((char*) addrString);
-            LOG("%d: getsockopt addrString %s\n", so, addrString);
+            LOG("%d: getsockopt addrString %s len %d\n", so, addrString, addrlen);
             int hdr_len = 1 + addrlen + sizeof(in_port_t);
             char* gotproxy_hdr = _MALLOC(hdr_len, M_TEMP, M_WAITOK| M_ZERO);
             gotproxy_hdr[0] = addrlen;

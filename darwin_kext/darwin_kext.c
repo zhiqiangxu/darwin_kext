@@ -158,7 +158,7 @@ static errno_t install_gotproxy_tcp_filter(int pid, uint16_t port) {
         proxy_param.port = 0;
         LOG("sflt_register error errorno = %d", retval);
     } else {
-        LOG("sflt_register ok");
+        LOG("sflt_register ok, pid = %d, port = %d", pid, port);
         kext_filter_unregistered = false;
     }
     
