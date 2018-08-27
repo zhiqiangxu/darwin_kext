@@ -18,17 +18,16 @@ typedef struct gotproxy_cookie {
 
 static errno_t gotproxy_tcp_attach_cb(void ** cookie, socket_t so)
 {
-    LOG("enter gotproxy_tcp_attach_cb");
-    LOG("try lock shared");
+    LOG("%d: enter gotproxy_tcp_attach_cb", so);
     // Check proximac mode
     lck_rw_lock_shared(g_param_lock);
     if (proxy_param.pid == 0)
     {
-        LOG("filter is off");
+//        LOG("filter is off");
         lck_rw_unlock_shared(g_param_lock);
         return -1;
     }
-    LOG("filter is on");
+//    LOG("filter is on");
     
     struct TProxyParam copy_param = proxy_param;
     lck_rw_unlock_shared(g_param_lock);
@@ -37,17 +36,17 @@ static errno_t gotproxy_tcp_attach_cb(void ** cookie, socket_t so)
         return -1;
     }
     
-    LOG("attached");
+//    LOG("attached");
     
     // Allocate cookie for this socket
     *cookie = _MALLOC(sizeof(gotproxy_cookie_t), M_TEMP, M_WAITOK | M_ZERO);
     if (NULL == *cookie)
     {
-        LOG("_MALLOC() error");
+        LOG("%d: _MALLOC() error", so);
         return ENOMEM;
     }
 
-    LOG("gotproxy filter has been attached to a socket");
+    LOG("%d: gotproxy filter has been attached to a socket", so);
     return 0;
 }
 
@@ -55,14 +54,14 @@ static void gotproxy_tcp_detach_cb(void * cookie, socket_t so)
 {
     // free cookie
     _FREE(cookie, M_TEMP);
-    LOG("gotproxy filter has been detached from a socket");
+    LOG("%d: gotproxy filter has been detached from a socket", so);
 }
 
 static errno_t gotproxy_tcp_connect_out_cb(
                             void * cookie,
                             socket_t so,
                             const struct sockaddr * to){
-    LOG("enter gotproxy_tcp_connect_out_cb");
+    LOG("%d: enter gotproxy_tcp_connect_out_cb", so);
     gotproxy_cookie_t * gotproxy_cookie = (gotproxy_cookie_t *)cookie;
     
     lck_rw_lock_shared(g_param_lock);
@@ -85,7 +84,7 @@ static errno_t gotproxy_tcp_connect_out_cb(
         uint32_t redirectorAddr = htonl(INADDR_LOOPBACK);
         in_port_t redirectorPort = htons(copy_param.port);
         if (remote_addr->sin_port == redirectorPort && remote_addr->sin_addr.s_addr == redirectorAddr) {
-            LOG("directly access redirector port is forbid!");
+            LOG("%d: directly access redirector port is forbid!", so);
             return -1;
         }
         
@@ -109,7 +108,7 @@ static errno_t gotproxy_tcp_connect_out_cb(
 }
 
 static	void gotproxy_tcp_notify_cb(void *cookie, socket_t so, sflt_event_t event, void *param) {
-    LOG("enter gotproxy_tcp_notify_cb");
+    LOG("%d: enter gotproxy_tcp_notify_cb", so);
     
     gotproxy_cookie_t * gotproxy_cookie = (gotproxy_cookie_t *)cookie;
     
@@ -131,7 +130,7 @@ static	void gotproxy_tcp_notify_cb(void *cookie, socket_t so, sflt_event_t event
             }
             
             char addrlen = strlen((char*) addrString);
-            LOG("getsockopt addrString %s\n", addrString);
+            LOG("%d: getsockopt addrString %s\n", so, addrString);
             int hdr_len = 1 + addrlen + sizeof(in_port_t);
             char* gotproxy_hdr = _MALLOC(hdr_len, M_TEMP, M_WAITOK| M_ZERO);
             gotproxy_hdr[0] = addrlen;
@@ -145,18 +144,18 @@ static	void gotproxy_tcp_notify_cb(void *cookie, socket_t so, sflt_event_t event
             // Note: default type and flags are fine; don't do further modification.
             retval = mbuf_allocpacket(MBUF_WAITOK, hdr_len, 0, &gotproxy_hdr_data);
             if (retval) {
-                LOG("mbuf_allocpacket failed errorno = %d", retval);
+                LOG("%d: mbuf_allocpacket failed errorno = %d", so, retval);
                 goto failure;
             }
             retval = mbuf_copyback(gotproxy_hdr_data, 0, hdr_len, gotproxy_hdr, MBUF_WAITOK);
             if (retval) {
-                LOG("mbuf_copyback failed errorno = %d", retval);
+                LOG("%d: mbuf_copyback failed errorno = %d", so, retval);
                 goto failure;
             }
             _FREE(gotproxy_hdr, M_TEMP);
             retval = sock_inject_data_out(so, NULL, gotproxy_hdr_data, gotproxy_hdr_control, 0);
             if (retval) {
-                LOG("sock_inject_data_out failed errorno = %d", retval);
+                LOG("%d: sock_inject_data_out failed errorno = %d", so, retval);
                 goto failure;
             }
             break;

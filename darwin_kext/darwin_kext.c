@@ -23,8 +23,8 @@ static errno_t uninstall_gotproxy_tcp_filter();
 
 
 static bool kext_stopping_started = false;
-static bool kext_filter_unregistered = false;
-static struct TProxyParam proxy_param;
+static bool kext_filter_unregistered = true;
+static struct TProxyParam proxy_param = {0};
 
 #include "darwin_kext_locks.c"
 
@@ -121,7 +121,6 @@ static errno_t uninstall_controller() {
         else
         {
             g_gotproxy_ctl_ref = NULL;
-            release_locks();
             LOG("gotproxy controller has been unregistered.");
         }
     }
@@ -160,6 +159,7 @@ static errno_t install_gotproxy_tcp_filter(int pid, uint16_t port) {
         LOG("sflt_register error errorno = %d", retval);
     } else {
         LOG("sflt_register ok");
+        kext_filter_unregistered = false;
     }
     
     lck_rw_unlock_exclusive(g_param_lock);
@@ -169,22 +169,31 @@ static errno_t install_gotproxy_tcp_filter(int pid, uint16_t port) {
 
 static errno_t uninstall_gotproxy_tcp_filter() {
     
-    lck_rw_lock_exclusive(g_param_lock);
+    LOG("uninstall_gotproxy_tcp_filter enter");
+    
+    lck_rw_lock_shared(g_param_lock);
+    
+    LOG("uninstall_gotproxy_tcp_filter locked");
+    
     if (proxy_param.pid == 0) {
-        lck_rw_unlock_exclusive(g_param_lock);
+        lck_rw_unlock_shared(g_param_lock);
         return 0;
     }
+    lck_rw_unlock_shared(g_param_lock);
     
+    LOG("uninstall_gotproxy_tcp_filter before sflt_unregister");
     errno_t retval = sflt_unregister(GOTPROXY_TCP_FILTER_HANDLE);
     if (retval) {
         LOG("sflt_unregister error errorno = %d", retval);
     } else {
+        lck_rw_lock_exclusive(g_param_lock);
         proxy_param.pid = 0;
         proxy_param.port = 0;
+        lck_rw_unlock_exclusive(g_param_lock);
         LOG("sflt_unregister ok");
     }
     
-    lck_rw_unlock_exclusive(g_param_lock);
+    LOG("uninstall_gotproxy_tcp_filter done");
     
     return retval;
 }
@@ -221,6 +230,7 @@ kern_return_t darwin_kext_stop(kmod_info_t *ki, void *d)
     // wait for filter unregistered
     lck_rw_lock_exclusive(g_param_lock);
     if (!kext_filter_unregistered) {
+        LOG("wait for kext_filter_unregistered");
         lck_rw_unlock_exclusive(g_param_lock);
         goto failure;
     }
@@ -233,6 +243,7 @@ kern_return_t darwin_kext_stop(kmod_info_t *ki, void *d)
         goto failure;
     }
     
+    release_locks();
     LOG("gotproxy kext is now removed");
     return KERN_SUCCESS;
     

@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "D6A01B807145A1D9E0B7373546D40F5438FB7767",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "D6A01B807145A1D9E0B7373546D40F5438FB7767" : 9223372036854775807,
+    "EC5562DA86D45A287A9F22E2CBDE6FC6491889EC" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "21AAECB2-0084-405B-993D-0F1E5A5C623B",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "D6A01B807145A1D9E0B7373546D40F5438FB7767" : "darwin_kext\/",
+    "EC5562DA86D45A287A9F22E2CBDE6FC6491889EC" : ".."
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "darwin_kext",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "darwin_kext.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:zhiqiangxu\/darwin_kext.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D6A01B807145A1D9E0B7373546D40F5438FB7767"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:zhiqiangxu\/gotproxy.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "EC5562DA86D45A287A9F22E2CBDE6FC6491889EC"
+    }
+  ]
+}
